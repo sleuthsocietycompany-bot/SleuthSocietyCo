@@ -234,6 +234,21 @@
     .gallery-item { margin: 0; }
     .gallery-item a { display: block; width: 100%; height: 100%; }
     .gallery-item a:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+
+    .case-list { background: var(--dark-mid); text-align: center; border-top: 1px solid rgba(201,168,76,0.15); }
+    .case-list p { font-size: 1.1rem; font-style: italic; color: rgba(242,235,217,0.65); max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.8; }
+    .case-list-form { display: grid; gap: 1rem; max-width: 420px; margin: 0 auto; text-align: left; }
+    .case-list-form label { font-family: 'Josefin Sans', sans-serif; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.45rem; }
+    .case-list-form input[type="text"],
+    .case-list-form input[type="email"] { width: 100%; background: var(--dark); color: var(--cream); border: 1px solid rgba(201,168,76,0.35); padding: 0.9rem 1rem; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.1rem; }
+    .case-list-form input:focus { outline: 1px solid var(--gold); border-color: var(--gold); }
+    .case-list-form .btn-primary { width: 100%; }
+    .case-list-form .btn-primary:disabled { opacity: 0.6; cursor: wait; transform: none; }
+    .case-list-success { color: var(--gold-light) !important; }
+    .case-list-error { color: var(--pink) !important; font-style: normal !important; margin: 1.25rem auto 0 !important; }
+    .case-list-note { font-family: 'Josefin Sans', sans-serif !important; font-size: 0.62rem !important; font-style: normal !important; letter-spacing: 0.12em; text-transform: uppercase; margin: 1.25rem auto 0 !important; max-width: 420px !important; }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { color: var(--gold-light); }
   </style>
 </head>
 <body>
@@ -249,6 +264,7 @@
       <li><a href="#gallery">Gallery</a></li>
       <li><a href="#venues">Venues</a></li>
       <li><a href="#how">How It Works</a></li>
+      <li><a href="#list">The List</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
@@ -486,6 +502,32 @@
     </div>
   </section>
 
+
+  <section class="case-list" id="list">
+    <div class="container">
+      <span class="section-eyebrow">The Case File</span>
+      <h2 class="section-title">Join the <em>Case File</em> list</h2>
+      <div class="gold-rule" style="margin:1.5rem auto;"></div>
+      <p>Be the first to hear about new mysteries and ticket drops.</p>
+      <form class="case-list-form" id="case-list-form" action="https://assets.mailerlite.com/jsonp/2800813/forms/204315371226793720/subscribe" method="post">
+        <div>
+          <label for="case-list-name">First name <span style="color:var(--text-muted);letter-spacing:0.12em;">(optional)</span></label>
+          <input id="case-list-name" type="text" name="fields[name]" autocomplete="given-name" />
+        </div>
+        <div>
+          <label for="case-list-email">Email</label>
+          <input id="case-list-email" type="email" name="fields[email]" autocomplete="email" required />
+        </div>
+        <input type="hidden" name="ml-submit" value="1" />
+        <input type="hidden" name="anticsrf" value="true" />
+        <button type="submit" class="btn-primary">Join the List</button>
+      </form>
+      <p class="case-list-success" id="case-list-success" hidden>You&#8217;re on the list. We&#8217;ll be in touch when the next case opens.</p>
+      <p class="case-list-error" id="case-list-error" hidden></p>
+      <p class="case-list-note">We only email about Sleuth Society events. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
   <section class="contact" id="contact">
     <div class="container">
       <span class="section-eyebrow">Get In Touch</span>
@@ -503,8 +545,53 @@
   </section>
 
   <footer>
-    <p>&copy; 2026 <strong>Sleuth Society Co.&#8482;</strong> &nbsp;&middot;&nbsp; All Rights Reserved &nbsp;&middot;&nbsp; Inland Empire, CA &nbsp;&middot;&nbsp; Everyone is a suspect.</p>
+    <p>&copy; 2026 <strong>Sleuth Society Co.&#8482;</strong> &nbsp;&middot;&nbsp; All Rights Reserved &nbsp;&middot;&nbsp; Inland Empire, CA &nbsp;&middot;&nbsp; Everyone is a suspect. &nbsp;&middot;&nbsp; <a href="#list">Join the Case File list</a></p>
   </footer>
+
+
+  <script>
+    (function () {
+      var form = document.getElementById('case-list-form');
+      if (!form) return;
+      var success = document.getElementById('case-list-success');
+      var errorEl = document.getElementById('case-list-error');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        errorEl.hidden = true;
+        errorEl.textContent = '';
+        var btn = form.querySelector('button[type="submit"]');
+        var email = (form.querySelector('[name="fields[email]"]').value || '').trim();
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          errorEl.textContent = 'Please enter a valid email address.';
+          errorEl.hidden = false;
+          return;
+        }
+        btn.disabled = true;
+        fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
+          body: new URLSearchParams(new FormData(form)).toString()
+        }).then(function (res) { return res.json(); }).then(function (json) {
+          if (json && json.success) {
+            form.hidden = true;
+            success.hidden = false;
+          } else {
+            var msg = 'Something went wrong. Please try again.';
+            if (json && json.errors && json.errors.fields && json.errors.fields.email && json.errors.fields.email[0]) {
+              msg = json.errors.fields.email[0];
+            }
+            errorEl.textContent = msg;
+            errorEl.hidden = false;
+            btn.disabled = false;
+          }
+        }).catch(function () {
+          errorEl.textContent = 'Something went wrong. Please try again.';
+          errorEl.hidden = false;
+          btn.disabled = false;
+        });
+      });
+    })();
+  </script>
 
 </body>
 </html>

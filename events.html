@@ -182,6 +182,23 @@
       .cards { grid-template-columns: 1fr; }
       .card { padding: 1.75rem 1.25rem; }
     }
+
+    .case-list { text-align: center; border-top: 1px solid rgba(201,168,76,0.15); max-width: none; padding: 4.5rem 1.5rem; }
+    .case-list .case-list-inner { max-width: 640px; margin: 0 auto; }
+    .case-list h2 { margin-bottom: 1rem; }
+    .case-list .lead { font-size: 1.2rem; color: #cfc6b2; font-style: italic; max-width: 500px; margin: 0 auto 2rem; }
+    .case-list-form { display: grid; gap: 1rem; max-width: 420px; margin: 0 auto; text-align: left; }
+    .case-list-form label { font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.45rem; }
+    .case-list-form input[type="text"],
+    .case-list-form input[type="email"] { width: 100%; background: rgba(255,255,255,0.02); color: var(--cream); border: 1px solid rgba(201,168,76,0.35); padding: 0.9rem 1rem; font-family: var(--serif); font-size: 1.05rem; border-radius: 2px; }
+    .case-list-form input:focus { outline: 1px solid var(--gold); border-color: var(--gold); }
+    .case-list-form .btn-primary { width: 100%; border: none; cursor: pointer; }
+    .case-list-form .btn-primary:disabled { opacity: 0.6; cursor: wait; }
+    .case-list-success { color: var(--gold-light); font-style: italic; margin-top: 1.25rem; }
+    .case-list-error { color: var(--pink); margin-top: 1.25rem; }
+    .case-list-note { font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 1.25rem; }
+    nav a.nav-list { font-family: var(--sans); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); text-decoration: none; margin-left: auto; }
+    nav a.nav-list:hover { color: var(--gold-light); }
   </style>
 </head>
 <body>
@@ -189,6 +206,7 @@
   <!-- NAV -->
   <nav>
     <a class="logo" href="https://www.sleuthsocietycompany.com">Sleuth Society Co.™</a>
+    <a class="nav-list" href="#list">Join the List</a>
     <a class="nav-cta" href="https://www.sleuthsocietycompany.com">&#8592; Home</a>
   </nav>
 
@@ -308,14 +326,85 @@
     </div>
   </section>
 
+
+  <section class="case-list" id="list">
+    <div class="case-list-inner">
+      <p class="section-eyebrow">The Case File</p>
+      <h2>Join the <em style="color:var(--gold);">Case File</em> list</h2>
+      <div class="divider"></div>
+      <p class="lead">Be the first to hear about new mysteries and ticket drops.</p>
+      <form class="case-list-form" id="case-list-form" action="https://assets.mailerlite.com/jsonp/2800813/forms/204315371226793720/subscribe" method="post">
+        <div>
+          <label for="case-list-name">First name <span style="color:var(--muted);letter-spacing:0.12em;">(optional)</span></label>
+          <input id="case-list-name" type="text" name="fields[name]" autocomplete="given-name" />
+        </div>
+        <div>
+          <label for="case-list-email">Email</label>
+          <input id="case-list-email" type="email" name="fields[email]" autocomplete="email" required />
+        </div>
+        <input type="hidden" name="ml-submit" value="1" />
+        <input type="hidden" name="anticsrf" value="true" />
+        <button type="submit" class="btn-primary">Join the List</button>
+      </form>
+      <p class="case-list-success" id="case-list-success" hidden>You're on the list. We'll be in touch when the next case opens.</p>
+      <p class="case-list-error" id="case-list-error" hidden></p>
+      <p class="case-list-note">We only email about Sleuth Society events. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
   <div class="back">
     <a class="btn-secondary" style="display:inline-block" href="https://www.sleuthsocietycompany.com">&#8592; Back to Homepage</a>
   </div>
 
   <!-- FOOTER -->
   <footer>
-    © 2026 Sleuth Society Co.™ · <a href="https://www.sleuthsocietycompany.com">sleuthsocietycompany.com</a> · Murder Mystery Dinners in Southern California
+    © 2026 Sleuth Society Co.™ · <a href="https://www.sleuthsocietycompany.com">sleuthsocietycompany.com</a> · <a href="#list">Join the Case File list</a> · Murder Mystery Dinners in Southern California
   </footer>
+
+
+  <script>
+    (function () {
+      var form = document.getElementById('case-list-form');
+      if (!form) return;
+      var success = document.getElementById('case-list-success');
+      var errorEl = document.getElementById('case-list-error');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        errorEl.hidden = true;
+        errorEl.textContent = '';
+        var btn = form.querySelector('button[type="submit"]');
+        var email = (form.querySelector('[name="fields[email]"]').value || '').trim();
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          errorEl.textContent = 'Please enter a valid email address.';
+          errorEl.hidden = false;
+          return;
+        }
+        btn.disabled = true;
+        fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
+          body: new URLSearchParams(new FormData(form)).toString()
+        }).then(function (res) { return res.json(); }).then(function (json) {
+          if (json && json.success) {
+            form.hidden = true;
+            success.hidden = false;
+          } else {
+            var msg = 'Something went wrong. Please try again.';
+            if (json && json.errors && json.errors.fields && json.errors.fields.email && json.errors.fields.email[0]) {
+              msg = json.errors.fields.email[0];
+            }
+            errorEl.textContent = msg;
+            errorEl.hidden = false;
+            btn.disabled = false;
+          }
+        }).catch(function () {
+          errorEl.textContent = 'Something went wrong. Please try again.';
+          errorEl.hidden = false;
+          btn.disabled = false;
+        });
+      });
+    })();
+  </script>
 
 </body>
 </html>
