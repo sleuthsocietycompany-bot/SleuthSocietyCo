@@ -406,6 +406,15 @@
         '}',
         '.ssc-panel::before{content:"";position:absolute;inset:0;background:' + GRAIN + ',' + NOISE + ';background-size:300px 600px,220px 220px;mix-blend-mode:soft-light;opacity:.55;pointer-events:none}',
         '.ssc-panel::after{content:"";position:absolute;inset:0;pointer-events:none}',
+        '.ssc-img{position:absolute;inset:0;background-size:cover;background-repeat:no-repeat;opacity:0;transition:opacity .35s ease}',
+        '.ssc-left .ssc-img{background-position:right center}',
+        '.ssc-right .ssc-img{background-position:left center}',
+        '.ssc-img.ssc-on{opacity:1}',
+        '.ssc-has-photo .ssc-panel::before{opacity:0}',
+        '.ssc-has-photo .ssc-left::after{background:linear-gradient(270deg,rgba(0,0,0,.45) 0,rgba(0,0,0,0) 4%)}',
+        '.ssc-has-photo .ssc-right::after{background:linear-gradient(90deg,rgba(0,0,0,.45) 0,rgba(0,0,0,0) 4%)}',
+        '.ssc-has-photo .ssc-valance{opacity:0;transition:opacity .35s ease}',
+        '.ssc-title::before{content:"";position:absolute;left:50%;top:50%;width:min(900px,120vw);height:min(520px,70vh);transform:translate(-50%,-50%);z-index:-1;pointer-events:none;background:radial-gradient(ellipse at center,rgba(8,0,2,.72) 0,rgba(8,0,2,.5) 38%,rgba(8,0,2,0) 70%)}',
         '.ssc-left{left:0;transform-origin:0 50%}',
         '.ssc-left::after{background:linear-gradient(270deg,rgba(0,0,0,.78) 0,rgba(0,0,0,.35) 2.5%,rgba(0,0,0,0) 9%),linear-gradient(90deg,rgba(0,0,0,.6) 0,rgba(0,0,0,0) 7%)}',
         '.ssc-right{right:0;transform-origin:100% 50%}',
@@ -448,11 +457,34 @@
       el.className = 'ssc-curtain';
       el.setAttribute('aria-hidden', 'true');
       el.style.setProperty('--ssc-open', (C.openMs || 1500) + 'ms');
-      el.innerHTML = '<div class="ssc-panel ssc-left"></div><div class="ssc-panel ssc-right"></div><div class="ssc-valance"></div>'
+      el.innerHTML = '<div class="ssc-panel ssc-left"><div class="ssc-img"></div></div><div class="ssc-panel ssc-right"><div class="ssc-img"></div></div><div class="ssc-valance"></div>'
         + '<div class="ssc-title"><div class="ssc-eyebrow">Sleuth Society Co. Presents</div><div class="ssc-main">' + esc(C.title) + '</div>'
         + (C.subtitle ? '<div class="ssc-rule"></div><div class="ssc-sub">' + esc(C.subtitle) + '</div>' : '')
         + '</div><div class="ssc-skip">Tap to enter' + (C.music ? ' &#9834;' : '') + '</div>';
       document.body.insertBefore(el, document.body.firstChild);
+
+      /* ---- photo velvet panels: loaded in the background; CSS velvet shows until they're ready ---- */
+      function usePhotos() {
+        var P = window.SSC_CURTAIN_PANELS;
+        if (!P || !el.parentNode) return;
+        var imgs = el.querySelectorAll('.ssc-img'), srcs = [P.left, P.right], ready = 0;
+        for (var i = 0; i < 2; i++) (function (box, src) {
+          var im = new Image();
+          im.onload = function () {
+            box.style.backgroundImage = 'url("' + src + '")';
+            if (++ready === 2) { el.classList.add('ssc-has-photo'); imgs[0].classList.add('ssc-on'); imgs[1].classList.add('ssc-on'); }
+          };
+          im.src = src;
+        })(imgs[i], srcs[i]);
+      }
+      if (window.SSC_CURTAIN_PANELS) usePhotos();
+      else {
+        var ps = document.createElement('script');
+        ps.src = '/images/curtain-panels.js';
+        ps.async = true;
+        ps.onload = usePhotos;
+        document.head.appendChild(ps);
+      }
 
       /* ---- music: Web Audio, unlocked by the tap, clip loaded only after the tap ---- */
       var musicStarted = false;
