@@ -6,7 +6,8 @@
   <title>Murder Mystery Dinner Parties in Southern California | Sleuth Society Co.</title>
 
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Immersive murder mystery dinner parties in Southern California: Temecula, Riverside, Redondo Beach and more. Buy tickets online or book a private or corporate murder mystery event." />
+  <meta name="description" content="Immersive murder mystery dinner parties in Temecula, Riverside, Redondo Beach and across Southern California, plus Northern California, San Francisco and New Orleans. Buy tickets or book a private or corporate event." />
+  <meta name="keywords" content="murder mystery dinner, murder mystery dinner Southern California, murder mystery Temecula, murder mystery Riverside, murder mystery Redondo Beach, murder mystery Rancho Cucamonga, murder mystery Northern California, murder mystery San Francisco, murder mystery New Orleans, private murder mystery party, corporate murder mystery event, Sleuth Society Co." />
   <meta name="author" content="Sleuth Society Co." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="theme-color" content="#0E0C09" />
@@ -16,7 +17,7 @@
 
   <!-- Open Graph (for Facebook & Instagram link previews) -->
   <meta property="og:title" content="Murder Mystery Dinner Parties in Southern California | Sleuth Society Co." />
-  <meta property="og:description" content="Immersive murder mystery dinners where every guest is a suspect. Upcoming shows in Temecula, Riverside, Redondo Beach and Sycamore Inn. Buy tickets online." />
+  <meta property="og:description" content="Immersive murder mystery dinners where every guest is a suspect. Upcoming shows in Temecula, Riverside, Redondo Beach and Rancho Cucamonga. Buy tickets online." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://sleuthsocietycompany.com/" />
   <meta property="og:site_name" content="Sleuth Society Co." />
@@ -47,7 +48,7 @@
       "@id": "https://sleuthsocietycompany.com/#business",
       "name": "Sleuth Society Co.",
       "alternateName": "Sleuth Society Company",
-      "description": "Immersive murder mystery dinner parties in Southern California, including Temecula, Riverside and Redondo Beach. Public ticketed shows plus private parties, corporate events and venue partnerships.",
+      "description": "Immersive murder mystery dinner parties by Sleuth Society Co. and its operators throughout Southern California (Temecula, Riverside, Redondo Beach, Rancho Cucamonga), Northern California, San Francisco and New Orleans. Public ticketed shows plus private parties, corporate events and venue partnerships.",
       "url": "https://sleuthsocietycompany.com/",
       "logo": "https://sleuthsocietycompany.com/Sleuth-logo.jpeg",
       "image": "https://sleuthsocietycompany.com/Sleuth-logo.jpeg",
@@ -80,12 +81,24 @@
           "name": "Ontario, CA"
         },
         {
+          "@type": "City",
+          "name": "San Francisco, CA"
+        },
+        {
+          "@type": "City",
+          "name": "New Orleans, LA"
+        },
+        {
           "@type": "AdministrativeArea",
           "name": "Inland Empire, CA"
         },
         {
           "@type": "AdministrativeArea",
           "name": "Southern California"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Northern California"
         }
       ],
       "sameAs": [
@@ -148,7 +161,7 @@
       "name": "Where do you host murder mystery dinners?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "All over Southern California. Upcoming cases include Temecula, Riverside, Redondo Beach and Sycamore Inn, and past shows have taken place at Loft 84, Mimi's Cafe and Sycamore Inn."
+        "text": "Our operators host throughout Southern California, Northern California, San Francisco and New Orleans. Upcoming cases include Temecula, Riverside, Redondo Beach and Sycamore Inn in Rancho Cucamonga, and past shows have taken place at Loft 84, Mimi's Cafe, The Old Spaghetti Factory, Hamburger Mary's and Sycamore Inn."
       }
     },
     {
@@ -265,6 +278,18 @@
     .venue-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
     .venue-status { font-family: 'Josefin Sans', sans-serif; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-dim); }
     .venue-status.active { color: var(--pink); }
+    .venue-name a { color: var(--cream); text-decoration: none; border-bottom: 1px solid rgba(201,168,76,0.3); transition: color 0.3s, border-color 0.3s; }
+    .venue-name a:hover { color: var(--gold-light); border-color: var(--gold); }
+    .venue-city { font-size: 0.95rem; font-style: italic; color: rgba(242,235,217,0.6); margin-bottom: 0.6rem; }
+    .venue-status a { color: var(--gold); text-decoration: none; }
+    .venue-soon { border-style: dashed; border-color: rgba(201,168,76,0.3); }
+    .near-you { background: var(--dark-mid); border-top: 1px solid rgba(201,168,76,0.15); }
+    .region-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-top: 3rem; }
+    .region-card { background: var(--dark-card); border: 1px solid rgba(201,168,76,0.15); padding: 2rem 1.5rem; text-align: center; }
+    .region-card h3 { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; margin: 0.8rem 0 0.6rem; }
+    .region-card p { font-size: 0.98rem; line-height: 1.7; color: rgba(242,235,217,0.65); }
+    .region-icon { font-size: 2rem; }
+    .near-you-cta { display: flex; gap: 1.2rem; flex-wrap: wrap; justify-content: center; margin-top: 3rem; }
     .how { background: var(--dark-mid); }
     .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 3rem; }
     .step { text-align: center; padding: 2rem 1rem; position: relative; }
@@ -344,6 +369,7 @@
       <li><a href="events.html">All Events</a></li>
       <li><a href="#gallery">Gallery</a></li>
       <li><a href="#venues">Venues</a></li>
+      <li><a href="#near-you">Near You</a></li>
       <li><a href="#how">How It Works</a></li>
       <li><a href="#faq">FAQ</a></li>
       <li><a href="#list">The List</a></li>
@@ -455,7 +481,7 @@
             <p class="event-subtitle">A 1920s Murder Mystery</p>
             <div class="event-meta">
               <div class="event-meta-item">&#128197; <span>Thursday, December 31, 2026</span></div>
-              <div class="event-meta-item">&#128205; <span>Sycamore Inn</span></div>
+              <div class="event-meta-item">&#128205; <span>Sycamore Inn &#8212; Rancho Cucamonga, CA</span></div>
             </div>
             <p style="color:rgba(242,235,217,0.65);font-size:0.9rem;line-height:1.6;margin:0 0 1rem;">Coming soon. Contact Sycamore Inn for reservations.</p>
             <div class="event-price" style="color:var(--gold-dim);">Coming Soon</div>
@@ -536,17 +562,43 @@
 
   <section class="venues" id="venues">
     <div class="container">
-      <div style="text-align:center;max-width:600px;margin:0 auto;">
+      <div style="text-align:center;max-width:620px;margin:0 auto;">
         <span class="section-eyebrow">Our Venues</span>
-        <h2 class="section-title">Where the <em>Society</em> Convenes</h2>
+        <h2 class="section-title">Our Partner <em>Venues</em></h2>
         <div class="gold-rule" style="margin:1.5rem auto;"></div>
-        <p style="color:rgba(242,235,217,0.65);font-size:1.05rem;line-height:1.8;">We partner with the most atmospheric venues in Southern California to bring you unforgettable immersive experiences.</p>
+        <p style="color:rgba(242,235,217,0.65);font-size:1.05rem;line-height:1.8;">We partner with some of the most atmospheric venues in Southern California to bring you unforgettable immersive experiences. More venues coming soon.</p>
       </div>
       <div class="venue-grid">
-        <div class="venue-card"><div class="venue-icon">&#127866;</div><div class="venue-name">Relentless Brewing</div><div class="venue-status active">&#9679; Nov 20 &#8212; Temecula, CA</div></div>
-        <div class="venue-card"><div class="venue-icon">&#127912;</div><div class="venue-name">Life Art 360</div><div class="venue-status">Dec 4 &#8212; Riverside, CA &#183; Coming Soon</div></div>
-        <div class="venue-card"><div class="venue-icon">&#128218;</div><div class="venue-name">Redondo Beach Historic Library</div><div class="venue-status">Dec 18 &#8212; Tickets Available</div></div>
-        <div class="venue-card"><div class="venue-icon">&#129346;</div><div class="venue-name">Sycamore Inn</div><div class="venue-status">Dec 31 &#8212; Coming Soon</div></div>
+        <div class="venue-card"><div class="venue-icon">&#127866;</div><div class="venue-name"><a href="https://www.relentlessbrewingandspirits.com/temecula" target="_blank" rel="noopener">Relentless Brewing</a></div><div class="venue-city">Temecula, CA</div><div class="venue-status active">&#9679; Nov 20 &#183; Tickets On Sale</div></div>
+        <div class="venue-card"><div class="venue-icon">&#127912;</div><div class="venue-name">Life Art 360</div><div class="venue-city">Riverside, CA</div><div class="venue-status">Dec 4 &#183; Coming Soon</div></div>
+        <div class="venue-card"><div class="venue-icon">&#128218;</div><div class="venue-name"><a href="https://redondobeachhistoriclibrary.com/" target="_blank" rel="noopener">Redondo Beach Historic Library</a></div><div class="venue-city">Redondo Beach, CA</div><div class="venue-status">Dec 18 &#183; Tickets Available</div></div>
+        <div class="venue-card"><div class="venue-icon">&#129346;</div><div class="venue-name"><a href="https://thesycamoreinn.com/" target="_blank" rel="noopener">Sycamore Inn Historic Restaurant</a></div><div class="venue-city">Rancho Cucamonga, CA</div><div class="venue-status">Dec 31 &#183; Coming Soon</div></div>
+        <div class="venue-card"><div class="venue-icon">&#127913;</div><div class="venue-name"><a href="https://www.loft84weddingandeventvenue.com/" target="_blank" rel="noopener">Loft 84</a></div><div class="venue-city">Riverside, CA</div><div class="venue-status">Past Partner</div></div>
+        <div class="venue-card"><div class="venue-icon">&#9749;</div><div class="venue-name"><a href="https://www.mimiscafe.com/" target="_blank" rel="noopener">Mimi&#8217;s Cafe</a></div><div class="venue-city">Southern California</div><div class="venue-status">Past Partner</div></div>
+        <div class="venue-card"><div class="venue-icon">&#127837;</div><div class="venue-name"><a href="https://www.osf.com/location/rancho-cucamonga-ca/" target="_blank" rel="noopener">The Old Spaghetti Factory</a></div><div class="venue-city">Rancho Cucamonga, CA</div><div class="venue-status">Past Partner</div></div>
+        <div class="venue-card"><div class="venue-icon">&#127828;</div><div class="venue-name">Hamburger Mary&#8217;s</div><div class="venue-city">Ontario, CA</div><div class="venue-status">Past Partner</div></div>
+        <div class="venue-card venue-soon"><div class="venue-icon">&#10022;</div><div class="venue-name">More Venues</div><div class="venue-city">Coming Soon</div><div class="venue-status">Want to host? <a href="#contact">Get in touch</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="near-you" id="near-you">
+    <div class="container">
+      <div style="text-align:center;max-width:640px;margin:0 auto;">
+        <span class="section-eyebrow">Find a Case Near You</span>
+        <h2 class="section-title">Sleuth Society Events <em>Near You</em></h2>
+        <div class="gold-rule" style="margin:1.5rem auto;"></div>
+        <p style="color:rgba(242,235,217,0.65);font-size:1.05rem;line-height:1.8;">Our operators host murder mysteries throughout Southern California, Northern California, San Francisco, and New Orleans.</p>
+      </div>
+      <div class="region-grid">
+        <div class="region-card"><div class="region-icon">&#127796;</div><h3>Southern California</h3><p>Temecula, Riverside, Redondo Beach, Rancho Cucamonga and beyond.</p></div>
+        <div class="region-card"><div class="region-icon">&#127794;</div><h3>Northern California</h3><p>Our operators bring immersive whodunits to Northern California.</p></div>
+        <div class="region-card"><div class="region-icon">&#127753;</div><h3>San Francisco</h3><p>Murder mystery nights by the Bay, run by local Sleuth Society operators.</p></div>
+        <div class="region-card"><div class="region-icon">&#127927;</div><h3>New Orleans</h3><p>Mystery, music and a little mischief in the Big Easy.</p></div>
+      </div>
+      <div class="near-you-cta">
+        <a href="events.html" class="btn-primary">See Upcoming Events</a>
+        <a href="#contact" class="btn-outline">Book a Mystery Near You</a>
       </div>
     </div>
   </section>
@@ -613,7 +665,7 @@
         </details>
         <details class="faq-item">
           <summary>Where do you host murder mystery dinners?</summary>
-          <p>All over Southern California. Upcoming cases include Temecula, Riverside, Redondo Beach and Sycamore Inn, and past shows have taken place at Loft 84, Mimi&#8217;s Cafe and Sycamore Inn.</p>
+          <p>Our operators host throughout Southern California, Northern California, San Francisco and New Orleans (see <a href="#near-you">Events Near You</a>). Upcoming cases include Temecula, Riverside, Redondo Beach and Sycamore Inn in Rancho Cucamonga, and past shows have taken place at Loft 84, Mimi&#8217;s Cafe, The Old Spaghetti Factory, Hamburger Mary&#8217;s and Sycamore Inn.</p>
         </details>
         <details class="faq-item">
           <summary>Can you host a private party or corporate event?</summary>
