@@ -362,7 +362,12 @@
   <!-- ===================== OPENING CURTAIN (homepage only) =====================
        Red velvet curtains with a seasonal title that part on page load.
        Built by JavaScript only, so search engines and no-JS visitors just see the page.
-       To change the text or turn it off, edit CURTAIN_CONFIG right below.
+       To change the text, turn off the music, or turn the whole thing off,
+       edit CURTAIN_CONFIG right below.
+       Music: Vivaldi, "Winter" (The Four Seasons), I. Allegro non molto,
+       performed by The Modena Chamber Orchestra (Musopen), Public Domain Mark
+       (no attribution required). 7-second clip lives in /audio/winter-clip.js and
+       only loads after a visitor taps the curtain.
   ============================================================================ -->
   <script>
     /* ---------------- CURTAIN_CONFIG: edit here ---------------- */
@@ -370,6 +375,7 @@
       enabled: true,                                   // false = turn the curtain off
       title: "Holly Jolly Homicide",                   // big line (e.g. "Merry Murder")
       subtitle: "The Christmas Season at Sleuth Society", // small line ("" to hide)
+      music: true,                                     // false = no Vivaldi when visitors tap
       holdMs: 1200,                                    // how long the title shows before opening
       openMs: 1500,                                    // how long the curtains take to open
       oncePerSession: true                             // true = show once per browser session
@@ -382,32 +388,57 @@
       if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       try { if (C.oncePerSession) sessionStorage.setItem(KEY, '1'); } catch (e) {}
 
-      var css = ''
-        + '.ssc-curtain{position:fixed;inset:0;z-index:9999;overflow:hidden;pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent;background:transparent}'
-        + '.ssc-curtain .ssc-panel{position:absolute;top:0;bottom:0;width:50.5%;transition:transform var(--ssc-open) cubic-bezier(.7,0,.25,1);will-change:transform;'
-        + 'background:repeating-linear-gradient(90deg,#4a0509 0,#7d0c14 3.5%,#b3141f 6%,#7d0c14 8.5%,#4a0509 12.5%),linear-gradient(180deg,#5e070d,#2a0205);background-blend-mode:normal;'
-        + 'box-shadow:inset 0 -40px 60px rgba(0,0,0,.45),inset 0 30px 50px rgba(0,0,0,.35)}'
-        + '.ssc-curtain .ssc-panel::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35) 0,rgba(0,0,0,0) 18%,rgba(255,255,255,.04) 55%,rgba(0,0,0,.4) 100%)}'
-        + '.ssc-curtain .ssc-panel::after{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;background:repeating-linear-gradient(90deg,#C9A84C 0 3px,#7a6330 3px 6px);box-shadow:0 -2px 0 #E8C97A}'
-        + '.ssc-curtain .ssc-left{left:0;transform-origin:left center;box-shadow:inset -30px 0 40px rgba(0,0,0,.55),inset 0 -40px 60px rgba(0,0,0,.45)}'
-        + '.ssc-curtain .ssc-right{right:0;transform-origin:right center;box-shadow:inset 30px 0 40px rgba(0,0,0,.55),inset 0 -40px 60px rgba(0,0,0,.45)}'
-        + '.ssc-curtain .ssc-valance{position:absolute;top:0;left:0;right:0;height:9vh;min-height:48px;z-index:2;transition:transform var(--ssc-open) ease-in;'
-        + 'background:repeating-radial-gradient(ellipse at 50% -40%,#8f0f18 0,#5a060c 40%,#3a0307 60%),linear-gradient(180deg,#3a0307,#6b0910);'
-        + 'border-bottom:3px solid #C9A84C;box-shadow:0 6px 18px rgba(0,0,0,.6),inset 0 -6px 0 #7a6330}'
-        + '.ssc-curtain .ssc-valance::after{content:"";position:absolute;left:0;right:0;bottom:-11px;height:8px;background:radial-gradient(circle at 50% 0,#E8C97A 0 3px,transparent 3.5px) 0 0/22px 8px repeat-x}'
-        + '.ssc-curtain .ssc-title{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 1.5rem;transition:opacity .45s ease,transform .45s ease}'
-        + '.ssc-curtain .ssc-eyebrow{font-family:"Josefin Sans",sans-serif;font-size:.62rem;letter-spacing:.5em;text-transform:uppercase;color:#E8C97A;opacity:.9;margin-bottom:1.1rem}'
-        + '.ssc-curtain .ssc-main{font-family:"Playfair Display",Georgia,serif;font-style:italic;font-weight:900;font-size:clamp(2.4rem,9vw,6rem);line-height:1;color:#E8C97A;'
-        + 'text-shadow:0 2px 0 #7a6330,0 6px 24px rgba(0,0,0,.65);animation:ssc-in .7s ease both}'
-        + '.ssc-curtain .ssc-rule{width:min(260px,60vw);height:1px;margin:1.3rem auto;background:linear-gradient(90deg,transparent,#C9A84C,transparent)}'
-        + '.ssc-curtain .ssc-sub{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:clamp(1rem,3.4vw,1.45rem);color:#F2EBD9;text-shadow:0 2px 10px rgba(0,0,0,.7);animation:ssc-in .7s .15s ease both}'
-        + '.ssc-curtain .ssc-skip{position:absolute;left:0;right:0;bottom:calc(26px + env(safe-area-inset-bottom));z-index:3;text-align:center;font-family:"Josefin Sans",sans-serif;font-size:.55rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(242,235,217,.55)}'
-        + '.ssc-curtain.ssc-open .ssc-left{transform:translateX(-102%) skewX(-2deg)}'
-        + '.ssc-curtain.ssc-open .ssc-right{transform:translateX(102%) skewX(2deg)}'
-        + '.ssc-curtain.ssc-open .ssc-valance{transform:translateY(-110%)}'
-        + '.ssc-curtain.ssc-open .ssc-title,.ssc-curtain.ssc-open .ssc-skip{opacity:0;transform:scale(.96)}'
-        + '.ssc-curtain.ssc-open{pointer-events:none}'
-        + '@keyframes ssc-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}';
+      var NOISE = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+      var GRAIN = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='600'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55 .004' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E\")";
+
+      var css = [
+        '.ssc-curtain{position:fixed;inset:0;z-index:9999;overflow:hidden;cursor:pointer;-webkit-tap-highlight-color:transparent;background:#0b0002}',
+        '.ssc-curtain.ssc-open{background:transparent;pointer-events:none;transition:background .4s ease}',
+        /* velvet panels: layered uneven folds, sheen, lighting, seam and floor shadows */
+        '.ssc-panel{position:absolute;top:0;bottom:0;width:51%;will-change:transform;',
+        ' background:',
+        '  radial-gradient(ellipse 140% 60% at 50% 38%,rgba(255,70,90,.10),rgba(0,0,0,0) 62%),',
+        '  linear-gradient(180deg,rgba(0,0,0,.62) 0,rgba(0,0,0,.18) 16%,rgba(0,0,0,0) 34%,rgba(0,0,0,0) 66%,rgba(0,0,0,.35) 86%,rgba(0,0,0,.78) 100%),',
+        '  repeating-linear-gradient(90deg,rgba(0,0,0,0) 0,rgba(0,0,0,0) 3.1vw,rgba(255,170,180,.07) 3.6vw,rgba(255,200,205,.13) 3.8vw,rgba(255,170,180,.05) 4.1vw,rgba(0,0,0,0) 4.6vw,rgba(0,0,0,0) 9.7vw),',
+        '  repeating-linear-gradient(90deg,rgba(0,0,0,.42) 0,rgba(0,0,0,0) 3.4vw,rgba(0,0,0,0) 8.2vw,rgba(0,0,0,.30) 10.9vw,rgba(0,0,0,.42) 13.3vw),',
+        '  repeating-linear-gradient(90deg,rgba(0,0,0,0) 0,rgba(0,0,0,.28) 1.9vw,rgba(0,0,0,0) 3.3vw,rgba(120,0,15,.18) 4.4vw,rgba(0,0,0,0) 5.7vw),',
+        '  repeating-linear-gradient(90deg,#2a0207 0,#3a0008 .9vw,#5e0712 2.2vw,#8b0a1a 3.4vw,#a8102a 4.0vw,#b3122a 4.25vw,#8b0a1a 4.9vw,#5a0611 5.9vw,#3a0008 6.8vw,#2a0207 7.3vw);',
+        '}',
+        '.ssc-panel::before{content:"";position:absolute;inset:0;background:' + GRAIN + ',' + NOISE + ';background-size:300px 600px,220px 220px;mix-blend-mode:soft-light;opacity:.55;pointer-events:none}',
+        '.ssc-panel::after{content:"";position:absolute;inset:0;pointer-events:none}',
+        '.ssc-left{left:0;transform-origin:0 50%}',
+        '.ssc-left::after{background:linear-gradient(270deg,rgba(0,0,0,.78) 0,rgba(0,0,0,.35) 2.5%,rgba(0,0,0,0) 9%),linear-gradient(90deg,rgba(0,0,0,.6) 0,rgba(0,0,0,0) 7%)}',
+        '.ssc-right{right:0;transform-origin:100% 50%}',
+        '.ssc-right::after{background:linear-gradient(90deg,rgba(0,0,0,.78) 0,rgba(0,0,0,.35) 2.5%,rgba(0,0,0,0) 9%),linear-gradient(270deg,rgba(0,0,0,.6) 0,rgba(0,0,0,0) 7%)}',
+        /* valance: swagged drape with muted gold trim and a soft shadow underneath */
+        '.ssc-valance{position:absolute;top:0;left:-2%;right:-2%;height:max(76px,13vh);z-index:2;filter:drop-shadow(0 10px 14px rgba(0,0,0,.75));transition:transform .9s cubic-bezier(.6,0,.3,1) .5s}',
+        '.ssc-valance::before{content:"";position:absolute;left:0;right:0;top:0;height:48%;',
+        ' background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,0) 60%,rgba(0,0,0,.35)),repeating-linear-gradient(90deg,#3a0008 0,#6e0915 1.4vw,#93101f 2.1vw,#5a0611 3.2vw,#3a0008 3.9vw)}',
+        '.ssc-valance::after{content:"";position:absolute;left:0;right:0;top:34%;bottom:0;',
+        ' background:radial-gradient(ellipse 58% 100% at 50% 0,rgba(0,0,0,0) 0,rgba(0,0,0,0) 86%,rgba(0,0,0,.35) 86.5%,rgba(0,0,0,0) 90%) 0 0/20% 100% repeat-x,radial-gradient(ellipse 58% 100% at 50% 0,#33020a 0,#5c0712 18%,#7d0b19 33%,#931021 41%,#6c0915 52%,#831020 60%,#520611 71%,#2e0208 82%,#4f3b16 83.5%,#9c7f3a 84.6%,#b8963f 85.2%,#6b5222 86.4%,rgba(0,0,0,0) 87.2%) 0 0/20% 100% repeat-x}',
+        /* title */
+        '.ssc-title{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 1.5rem;transition:opacity .45s ease,transform .45s ease}',
+        '.ssc-eyebrow{font-family:"Josefin Sans",sans-serif;font-size:.62rem;letter-spacing:.5em;text-transform:uppercase;color:#d9bd73;opacity:.85;margin-bottom:1.1rem;text-shadow:0 1px 6px rgba(0,0,0,.8)}',
+        '.ssc-main{font-family:"Playfair Display",Georgia,serif;font-style:italic;font-weight:900;font-size:clamp(2.4rem,9vw,6rem);line-height:1.02;',
+        ' background:linear-gradient(180deg,#f6e3a6 0,#e2c06b 45%,#b88f3a 70%,#e8c97a 100%);-webkit-background-clip:text;background-clip:text;color:transparent;',
+        ' filter:drop-shadow(0 3px 2px rgba(0,0,0,.55)) drop-shadow(0 10px 22px rgba(0,0,0,.6));animation:ssc-in .7s ease both}',
+        '.ssc-rule{width:min(260px,60vw);height:1px;margin:1.3rem auto;background:linear-gradient(90deg,rgba(201,168,76,0),#C9A84C,rgba(201,168,76,0))}',
+        '.ssc-sub{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:clamp(1rem,3.4vw,1.45rem);color:#F2EBD9;text-shadow:0 2px 10px rgba(0,0,0,.85);animation:ssc-in .7s .15s ease both}',
+        '.ssc-skip{position:absolute;left:0;right:0;bottom:calc(28px + env(safe-area-inset-bottom));z-index:3;text-align:center;font-family:"Josefin Sans",sans-serif;font-size:.58rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(242,235,217,.6);text-shadow:0 1px 6px rgba(0,0,0,.9);transition:opacity .3s ease}',
+        /* opening: fabric gathers toward the sides with a gentle sway */
+        '.ssc-open .ssc-left{animation:ssc-pull-l var(--ssc-open) cubic-bezier(.62,.02,.3,1) forwards}',
+        '.ssc-open .ssc-right{animation:ssc-pull-r var(--ssc-open) cubic-bezier(.62,.02,.3,1) forwards}',
+        '.ssc-open .ssc-valance{transform:translateY(-115%)}',
+        '.ssc-open .ssc-title,.ssc-open .ssc-skip{opacity:0;transform:scale(.97)}',
+        '@keyframes ssc-pull-l{0%{transform:none}30%{transform:translateX(-6%) scaleX(.86) skewY(.7deg)}60%{transform:translateX(-30%) scaleX(.5) skewY(-.4deg)}100%{transform:translateX(-105%) scaleX(.22) skewY(0)}}',
+        '@keyframes ssc-pull-r{0%{transform:none}30%{transform:translateX(6%) scaleX(.86) skewY(-.7deg)}60%{transform:translateX(30%) scaleX(.5) skewY(.4deg)}100%{transform:translateX(105%) scaleX(.22) skewY(0)}}',
+        '@keyframes ssc-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}',
+        /* glitter: a light shower of gold sparkles as the curtains part */
+        '.ssc-glitter{position:absolute;top:-10px;width:var(--s);height:var(--s);border-radius:50%;z-index:4;pointer-events:none;',
+        ' background:radial-gradient(circle,#fff6d5 0,#e8c97a 35%,rgba(201,168,76,0) 70%);box-shadow:0 0 6px rgba(232,201,122,.8);opacity:0;',
+        ' animation:ssc-fall var(--d) cubic-bezier(.3,.2,.6,1) var(--w) forwards}',
+        '@keyframes ssc-fall{0%{opacity:0;transform:translate3d(0,0,0) scale(.6)}12%{opacity:1}55%{opacity:.9;transform:translate3d(var(--x),55vh,0) scale(1)}100%{opacity:0;transform:translate3d(calc(var(--x) * 1.6),100vh,0) scale(.4)}}'
+      ].join('\n');
       var style = document.createElement('style');
       style.textContent = css;
       document.head.appendChild(style);
@@ -420,10 +451,64 @@
       el.innerHTML = '<div class="ssc-panel ssc-left"></div><div class="ssc-panel ssc-right"></div><div class="ssc-valance"></div>'
         + '<div class="ssc-title"><div class="ssc-eyebrow">Sleuth Society Co. Presents</div><div class="ssc-main">' + esc(C.title) + '</div>'
         + (C.subtitle ? '<div class="ssc-rule"></div><div class="ssc-sub">' + esc(C.subtitle) + '</div>' : '')
-        + '</div><div class="ssc-skip">Tap to enter</div>';
+        + '</div><div class="ssc-skip">Tap to enter' + (C.music ? ' &#9834;' : '') + '</div>';
       document.body.insertBefore(el, document.body.firstChild);
 
-      var opened = false, holdTimer, doneTimer;
+      /* ---- music: Web Audio, unlocked by the tap, clip loaded only after the tap ---- */
+      var musicStarted = false;
+      function playMusic() {
+        if (!C.music || musicStarted) return;
+        musicStarted = true;
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        var ctx;
+        try { ctx = new AC(); if (ctx.resume) ctx.resume(); } catch (e) { return; }
+        function go() {
+          try {
+            var b64 = (window.SSC_WINTER_CLIP || '').split(',')[1];
+            if (!b64) return;
+            var bin = atob(b64), buf = new Uint8Array(bin.length);
+            for (var i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
+            var done = function (audio) {
+              var src = ctx.createBufferSource(), g = ctx.createGain(), t = ctx.currentTime + 0.02;
+              src.buffer = audio; src.loop = false;
+              src.connect(g); g.connect(ctx.destination);
+              var len = Math.min(audio.duration, 7);
+              g.gain.setValueAtTime(0.0001, t);
+              g.gain.linearRampToValueAtTime(0.8, t + 0.8);           // fade in ~0.8s
+              g.gain.setValueAtTime(0.8, t + len - 1.5);
+              g.gain.linearRampToValueAtTime(0.0001, t + len);        // fade out ~1.5s
+              src.start(t, 0, len);
+              src.onended = function () { try { ctx.close(); } catch (e) {} };
+            };
+            var p = ctx.decodeAudioData(buf.buffer, done, function () {});
+            if (p && p.then) p.then(null, function () {});
+          } catch (e) {}
+        }
+        if (window.SSC_WINTER_CLIP) { go(); return; }
+        var s = document.createElement('script');
+        s.src = '/audio/winter-clip.js';
+        s.async = true;
+        s.onload = go;
+        document.head.appendChild(s);
+      }
+
+      function glitter() {
+        var n = window.innerWidth < 600 ? 22 : 40, frag = document.createDocumentFragment();
+        for (var i = 0; i < n; i++) {
+          var g = document.createElement('i');
+          g.className = 'ssc-glitter';
+          g.style.left = (Math.random() * 100) + '%';
+          g.style.setProperty('--s', (2 + Math.random() * 4).toFixed(1) + 'px');
+          g.style.setProperty('--x', ((Math.random() - 0.5) * 80).toFixed(0) + 'px');
+          g.style.setProperty('--d', (0.9 + Math.random() * 0.5).toFixed(2) + 's');
+          g.style.setProperty('--w', (Math.random() * 0.3).toFixed(2) + 's');
+          frag.appendChild(g);
+        }
+        el.appendChild(frag);
+      }
+
+      var opened = false, holdTimer;
       function cleanup() {
         if (el.parentNode) el.parentNode.removeChild(el);
         document.removeEventListener('keydown', onKey);
@@ -433,15 +518,19 @@
         clearTimeout(holdTimer);
         var ms = fast ? Math.min(700, C.openMs || 1500) : (C.openMs || 1500);
         el.style.setProperty('--ssc-open', ms + 'ms');
-        // force a frame so the transition runs
+        if (!fast) glitter();
         requestAnimationFrame(function () { el.classList.add('ssc-open'); });
-        doneTimer = setTimeout(cleanup, ms + 150);
+        setTimeout(cleanup, ms + 250);   // safety removal (also clears the glitter)
       }
-      function onKey(e) { if (e.key === 'Escape' || e.key === 'Esc' || e.key === 'Enter' || e.key === ' ') open(true); }
-      el.addEventListener('click', function () { open(true); });
-      el.addEventListener('touchstart', function () { open(true); }, { passive: true });
+      function enter() { playMusic(); open(false); }          // tap / click / Enter: music + normal opening
+      function onKey(e) {
+        if (e.key === 'Escape' || e.key === 'Esc') open(true);  // Esc: silent quick skip
+        else if (e.key === 'Enter' || e.key === ' ') enter();
+      }
+      el.addEventListener('click', enter);
+      el.addEventListener('touchend', enter);
       document.addEventListener('keydown', onKey);
-      holdTimer = setTimeout(function () { open(false); }, C.holdMs || 1200);
+      holdTimer = setTimeout(function () { open(false); }, C.holdMs || 1200);   // nobody taps: silent opening
     })();
   </script>
   <!-- =================== END OPENING CURTAIN =================== -->
