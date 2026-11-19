@@ -338,6 +338,11 @@
     .hero-next { position: relative; margin-top: 1.6rem; font-family: 'Josefin Sans', sans-serif; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(242,235,217,0.75); opacity: 0; animation: fadeUp 1s ease forwards 1.2s; }
     .hero-next a { color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--gold-dim); }
     .hero-next a:hover { color: var(--gold-light); }
+    .partner-flash { position: relative; display: inline-flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; justify-content: center; margin-top: 1.2rem; padding: 0.55rem 1.2rem; border: 1px solid rgba(201,168,76,0.45); background: rgba(14,12,9,0.55); font-family: 'Josefin Sans', sans-serif; font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--cream); text-decoration: none; opacity: 0; animation: fadeUp 1s ease forwards 1.3s; transition: border-color 0.3s; }
+    .partner-flash:hover { border-color: var(--gold); }
+    .partner-flash .pf-tag { color: var(--dark); background: var(--gold); padding: 0.2rem 0.55rem; letter-spacing: 0.2em; }
+    .partner-flash .pf-sep { color: var(--gold); }
+    @media (max-width: 480px) { .partner-flash { gap: 0.4rem 0.7rem; padding: 0.6rem 1rem; } .partner-flash .pf-sep { display: none; } }
     .event-time { font-family: 'Josefin Sans', sans-serif; }
     .faq { background: var(--dark); border-top: 1px solid rgba(201,168,76,0.15); }
     .faq-list { max-width: 780px; margin: 3rem auto 0; }
@@ -600,6 +605,7 @@
       <a href="#how" class="btn-outline">How It Works</a>
     </div>
     <p class="hero-next">Next case: Dead as a Doornail &#183; Fri, Nov 20 &#183; Temecula &#8212; <a href="https://buy.stripe.com/3cI6ozfBL6UY1Wk3IsgjC0i" target="_blank" rel="noopener">Buy tickets, $30 &#8594;</a></p>
+    <a href="#venues" class="partner-flash" aria-label="New partner: Living Spaces, corporate event"><span class="pf-tag">New Partner</span><span>Living Spaces</span><span class="pf-sep">&#183;</span><span>Corporate Event</span></a>
   </section>
 
   <div class="gold-banner">
@@ -781,6 +787,7 @@
         <div class="venue-card"><div class="venue-icon">&#127912;</div><div class="venue-name">Life Art 360</div><div class="venue-city">Riverside, CA</div><div class="venue-status">Dec 4 &#183; Coming Soon</div></div>
         <div class="venue-card"><div class="venue-icon">&#128218;</div><div class="venue-name"><a href="https://redondobeachhistoriclibrary.com/" target="_blank" rel="noopener">Redondo Beach Historic Library</a></div><div class="venue-city">Redondo Beach, CA</div><div class="venue-status">Dec 18 &#183; Tickets Available</div></div>
         <div class="venue-card"><div class="venue-icon">&#129346;</div><div class="venue-name"><a href="https://thesycamoreinn.com/" target="_blank" rel="noopener">Sycamore Inn Historic Restaurant</a></div><div class="venue-city">Rancho Cucamonga, CA</div><div class="venue-status">Dec 31 &#183; Coming Soon</div></div>
+        <div class="venue-card"><div class="venue-icon">&#128715;</div><div class="venue-name">Living Spaces</div><div class="venue-city">Corporate Event Partner</div><div class="venue-status active">&#9679; New Partner</div></div>
         <div class="venue-card"><div class="venue-icon">&#127913;</div><div class="venue-name"><a href="https://www.loft84weddingandeventvenue.com/" target="_blank" rel="noopener">Loft 84</a></div><div class="venue-city">Riverside, CA</div><div class="venue-status">Past Partner</div></div>
         <div class="venue-card"><div class="venue-icon">&#9749;</div><div class="venue-name"><a href="https://www.mimiscafe.com/" target="_blank" rel="noopener">Mimi&#8217;s Cafe</a></div><div class="venue-city">Southern California</div><div class="venue-status">Past Partner</div></div>
         <div class="venue-card"><div class="venue-icon">&#127837;</div><div class="venue-name"><a href="https://www.osf.com/location/rancho-cucamonga-ca/" target="_blank" rel="noopener">The Old Spaghetti Factory</a></div><div class="venue-city">Rancho Cucamonga, CA</div><div class="venue-status">Past Partner</div></div>
